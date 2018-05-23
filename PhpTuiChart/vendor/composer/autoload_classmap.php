@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'PhpTuiChart\\Builder\\Builder' => $baseDir . '/Builder/Builder.php',
     'PhpTuiChart\\Builder\\DataPrep' => $baseDir . '/Builder/DataPrep.php',
     'PhpTuiChart\\Draw' => $baseDir . '/Draw.php',
 );

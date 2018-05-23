@@ -48,6 +48,8 @@
                     }
                 };
 
+            console.log(data);
+
             tui.chart.barChart(container, data, options);
         </script>
     </body>
