@@ -50,47 +50,6 @@ class Builder
 
     public function buildChart(){
 
-       /*$return = '<script type="text/javascript">
-
-            var container = document.getElementById(\'chart\'),
-                data = {
-                    categories: [\'cate1\', \'cate2\', \'cate3\'],
-                    series: [
-                        {
-                            name: \'Legend1\',
-                            data: [20, 30, 50]
-                        },
-                        {
-                            name: \'Legend2\',
-                            data: [40, 40, 60]
-                        },
-                        {
-                            name: \'Legend3\',
-                            data: [60, 50, 10]
-                        },
-                        {
-                            name: \'Legend4\',
-                            data: [80, 10, 70]
-                        }
-                    ]
-                },
-                options = {
-                    chart: {
-                        width: 500,
-                        height: 400,
-                        title: \'Chart Title\'
-                    },
-                    yAxis: {
-                        title: \'Y Axis Title\'
-                    },
-                    xAxis: {
-                        title: \'X Axis Title\'
-                    }
-                };
-
-            tui.chart.barChart(container, data, options);
-        </script>'; */
-
        $return ='<script type="text/javascript">';
 
        $return .="var container = document.getElementById('".$this->container_id."'),";
@@ -194,13 +153,7 @@ class Builder
 
     protected function assignChart(){
 
-        switch($this->type){
-
-            case $this->type == 'barChart';
-                $this->chart_init =  "tui.chart.barChart(container, data, options);";
-            break;
-
-        }
+        $this->chart_init =  "tui.chart.".$this->type."(container, data, options);";
 
     }
 
