@@ -1,6 +1,9 @@
 <?php namespace PhpTuiChart\Builder;
 
-
+/**
+ * Class Builder
+ * @package PhpTuiChart\Builder
+ */
 class Builder
 {
     use DataPrep;
@@ -17,37 +20,41 @@ class Builder
     protected $default_options =
         [
             'chart'=> [
-                'width'=> 500,
-                'height'=> 400,
-                'title'=> 'Chart Title'
+                'width'  => 500,
+                'height' => 400,
+                'title'  => 'Chart Title'
             ],
             'yAxis'=> [
-                'title'=> 'Y Axis Title'
+                'title' => 'Y Axis Title'
             ],
             'xAxis'=> [
-                'title'=> 'X Axis Title'
+                'title' => 'X Axis Title'
             ]
-        ]
-    ;
+        ];
 
     public function __construct($type,$chart_data)
     {
 
-        $this->type = $type;
-        $this->keypair = (isset($chart_data['keypair'])) ? $chart_data['keypair'] : false;
+        $this->type         = $type;
+        $this->keypair      = (isset($chart_data['keypair'])) ? $chart_data['keypair'] : false;
         $this->container_id = (isset($chart_data['container_id'])) ? $chart_data['container_id'] : 'chart';
-        $this->chart_data = $chart_data;
+        $this->chart_data   = $chart_data;
         $this->processChartData();
         $this->assignChart();
-        $this->chart = $this->buildChart();
+        $this->chart        = $this->buildChart();
 
     }
+
 
     public function __toString()
     {
         return $this->chart;
     }
 
+    /**
+     * Generate and return the finalized TUI Chart javascript
+     * @return string
+     */
     public function buildChart(){
 
        $return ='<script type="text/javascript">';
@@ -68,28 +75,43 @@ class Builder
 
     }
 
+    /**
+     * Process chart data into TUI format
+     */
     public function processChartData(){
 
-       $this->chart_data_json = $this->buildChartData();
+       $this->chart_data_json    = $this->buildChartData();
        $this->chart_options_json = $this->buildChartOptions();
 
     }
 
+    /**
+     * Build the chart data series and categories
+     * @return string
+     */
     protected function buildChartData(){
         $data = new \stdClass();
 
         $data->categories = $this->buildChartDataCategories();
-        $data->series = $this->buildChartDataSeries();
+        $data->series     = $this->buildChartDataSeries();
 
         return $this->prepArray($data);
     }
 
+    /**
+     * Format categories for TUI Chart JS
+     * @return mixed
+     */
     protected function buildChartDataCategories(){
 
         return $this->chart_data['categories'];
 
     }
 
+    /**
+     * Convert data to series format for TUI Chart JS
+     * @return array
+     */
     protected function buildChartDataSeries(){
 
         if($this->keypair){
@@ -103,9 +125,9 @@ class Builder
                     if(isset($allData[$serieskey])){
                         $allData[$serieskey]['data'][] = $seriesvalue;
                     }else{
-                        $series = [];
-                        $series['name'] = $serieskey;
-                        $series['data'][] = $seriesvalue;
+                        $series              = [];
+                        $series['name']      = $serieskey;
+                        $series['data'][]    = $seriesvalue;
                         $allData[$serieskey] = $series;
                     }
 
@@ -125,6 +147,10 @@ class Builder
 
     }
 
+    /**
+     * Format chart options for TUI Chart JS
+     * @return string
+     */
     protected function buildChartOptions(){
 
         if(isset($this->chart_data['width'])){
@@ -151,6 +177,9 @@ class Builder
 
     }
 
+    /**
+     * Set chart type in TUI Chart JS
+     */
     protected function assignChart(){
 
         $this->chart_init =  "tui.chart.".$this->type."(container, data, options);";

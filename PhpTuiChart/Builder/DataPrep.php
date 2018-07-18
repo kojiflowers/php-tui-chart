@@ -3,6 +3,12 @@
 trait DataPrep
 {
 
+    /**
+     * Determine data type and return as JSON
+     * @param $data_file
+     * @param bool $file_type
+     * @return bool|string
+     */
     public function run($data_file,$file_type = false){
 
         switch($file_type){
@@ -25,6 +31,11 @@ trait DataPrep
 
     }
 
+    /**
+     * Format TSV data into JSON
+     * @param $data_file
+     * @return string
+     */
     public function prepTsv($data_file)
     {
         $handle = fopen($data_file,'r');
@@ -56,6 +67,11 @@ trait DataPrep
 
     }
 
+    /**
+     * Format CSV data into JSON
+     * @param $data_file
+     * @return string
+     */
     public function prepCsv($data_file){
 
         $handle = fopen($data_file,'r');
@@ -84,10 +100,20 @@ trait DataPrep
 
     }
 
+    /**
+     * Return array as JSON
+     * @param $array
+     * @return string
+     */
     public function prepArray($array){
         return json_encode($array);
     }
 
+    /**
+     * Return JSON file contents as JSON
+     * @param $data_file
+     * @return bool|string
+     */
     public function prepJson($data_file){
 
         $json = file_get_contents($data_file);
@@ -96,6 +122,11 @@ trait DataPrep
 
     }
 
+    /**
+     * Find the low high ranges in data and return array of ranges
+     * @param $data
+     * @return array
+     */
     public function findDataRanges($data){
 
         $reorg = [];
